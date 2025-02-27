@@ -1,0 +1,23 @@
+php artisan make:migration m_level
+php artisan make:migration m_kategori
+php artisan make:migration m_user
+php artisan make:migration m_barang
+php artisan make:migration t_penjualan
+php artisan make:migration t_stok
+php artisan make:migration t_penjualan_detail
+
+php artisan make:model m_level
+php artisan make:model m_kategori
+php artisan make:model m_user
+php artisan make:model m_barang
+php artisan make:model t_penjualan
+php artisan make:model t_stok
+php artisan make:model t_penjualan_detail
+
+php artisan make:controller m_level
+php artisan make:controller m_kategori
+php artisan make:controller m_user
+php artisan make:controller m_barang
+php artisan make:controller t_penjualan
+php artisan make:controller t_stok
+php artisan make:controller t_penjualan_detail
