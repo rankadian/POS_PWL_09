@@ -19,10 +19,18 @@ class UserController extends Controller
         // ];
         // UserModel::insert($data);
 
+        // $data = [
+        //     'nama' => 'Pelanggan Pertama',
+        // ];
+        // Usermodel::where('username', 'Customer-1')->update($data);
+
         $data = [
-            'nama' => 'Pelanggan Pertama',
+            'level_id' => 2,
+            'username' => 'manager_dua',
+            'nama' => 'Manager 2',
+            'password' => Hash::make('12345')
         ];
-        Usermodel::where('username', 'Customer-1')->update($data);
+        UserModel::create($data);
 
         // coba akses model UserModel
         $user = UserModel::all(); //ambil semua data dari tabel_m_user
