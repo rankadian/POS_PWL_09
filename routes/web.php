@@ -35,3 +35,8 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/user', [UserController::class, 'index']);
+
+// Create, Read, Update, Delete (CRUD)
+Route::get('/user/tambah', [UserController::class, ''])->name('/user/tambah');
+Route::get('/user/ubah/{id}', [UserController::class, ''])->name('/user/ubah');
+Route::get('/user/hapus/{id}', [UserController::class, ''])->name('/user/hapus');

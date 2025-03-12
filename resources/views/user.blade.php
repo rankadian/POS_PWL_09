@@ -13,17 +13,21 @@
                 <th>Username</th>
                 <th>Nama</th>
                 <th>ID Level Pengguna</th>
-                <th>Jumlah Pengguna</th>
+                <th>Aksi</th>
+                {{-- <th>Jumlah Pengguna</th> --}}
 
             </tr>
-            {{-- @foreach ($data as $d) --}}
-            <tr>
-                <td>{{ $data->user_id }}</td>
-                <td>{{ $data->username }}</td>
-                <td>{{ $data->nama }}</td>
-                <td>{{ $data->level_id }}</td>
-            </tr>
-            {{-- @endforeach --}}
+            @foreach ($data as $d)
+                <tr>
+                    <td>{{ $data->user_id }}</td>
+                    <td>{{ $data->username }}</td>
+                    <td>{{ $data->nama }}</td>
+                    <td>{{ $data->level_id }}</td>
+                    {{-- <td>{{ $count }}</td> --}}
+                    <td><a href="{{route('user.ubah', $d->user_id)}}">ubah</a> | <a
+                            href="{{route('user.hapus', $d->user_id)}}">hapus</td>
+                </tr>
+            @endforeach
         </table>
     </body>
 
