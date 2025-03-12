@@ -13,15 +13,18 @@
                 <th>Username</th>
                 <th>Nama</th>
                 <th>ID Level Pengguna</th>
+                <th>Jumlah Pengguna</th>
+
             </tr>
-            @foreach ($data as $d)
-                <tr>
-                    <td>{{ $d->user_id }}</td>
-                    <td>{{ $d->username }}</td>
-                    <td>{{ $d->nama }}</td>
-                    <td>{{ $d->level_id }}</td>
-                </tr>
-            @endforeach
+            {{-- @foreach ($data as $d) --}}
+            <tr>
+                <td>{{ $data->user_id }}</td>
+                <td>{{ $data->username }}</td>
+                <td>{{ $data->nama }}</td>
+                <td>{{ $data->level_id }}</td>
+                <td>{{ $userCount }}</td>
+            </tr>
+            {{-- @endforeach --}}
         </table>
     </body>
 
