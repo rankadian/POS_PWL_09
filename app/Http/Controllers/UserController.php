@@ -213,10 +213,25 @@ class UserController extends Controller
 
 
 
-        // Prakticum 2.7
-        $user = UserModel::with('level')->get();
-        return view('user', ['data' => $user]);
+        // // Prakticum 2.7
+        // $user = UserModel::with('level')->get();
+        // return view('user', ['data' => $user]);
 
+
+
+        // Jobsheet 5
+        // Prakticum 3
+        $breadcrumb = (object)[
+            'title' => 'Selamat Datang',
+            'list' => ['Home', 'Welcome']
+        ];
+
+        $page = (object)[
+            'title' => 'Daftar user yang terdaftar dalam sistem'
+        ];
+
+        $activeMenu = 'user'; // set menu yang sedang aktif 
+        return view('welcome', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function tambah()

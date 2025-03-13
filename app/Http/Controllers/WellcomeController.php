@@ -13,6 +13,6 @@ class WellcomeController extends Controller
             'list' => ['Home', 'Welcome']
         ];
         $activeMenu = 'dashboard';
-        return view('welcoem', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('welcome', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 }
