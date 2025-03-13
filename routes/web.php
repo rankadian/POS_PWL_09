@@ -5,6 +5,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
 use Database\Seeders\KategoriSeeder;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Name;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +35,12 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 // ELOQUENT ORM
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
-Route::get('/user', [UserController::class, 'index']);
+// Route::get('/user', [UserController::class, 'index']);
 
 // Create, Read, Update, Delete (CRUD)
-Route::get('/user/tambah', [UserController::class, ''])->name('/user/tambah');
-Route::get('/user/ubah/{id}', [UserController::class, ''])->name('/user/ubah');
-Route::get('/user/hapus/{id}', [UserController::class, ''])->name('/user/hapus');
+Route::get('/user/tambah', [UserController::class, 'tambah'])->name('/user/tambah');
+Route::get('/user/ubah/{id}', [UserController::class, 'ubah'])->name('/user/ubah');
+Route::get('/user/hapus/{id}', [UserController::class, 'hapus'])->name('/user/hapus');
+Route::get('/user', [UserController::class, 'index'])->name('/user');
+Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan'])->name('/user/tambah_simpan');
+Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan'])->name('/user/ubah_simpan');
