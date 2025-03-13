@@ -43,6 +43,7 @@ class UserController extends Controller
 
         // coba akses model UserModel
         // $user = UserModel::all(); //ambil semua data dari tabel_m_user
+        // return view('user', ['data' => $user]);
 
 
         // Jobsheet 4
@@ -67,6 +68,7 @@ class UserController extends Controller
         // $user = UserModel::findOr(20, ['username', 'nama'], function () {
         //     abort(404);
         // });
+        // return view('user', ['data' => $user]);
 
 
 
@@ -74,6 +76,7 @@ class UserController extends Controller
         // $user = UserModel::findOrFail(1);
 
         // $user = UserModel::where('username', 'manager9')->firstOrFail();
+        // return view('user', ['data' => $user]);
 
 
 
@@ -84,6 +87,7 @@ class UserController extends Controller
 
         // $user = UserModel::where('level_id', 2)->count();
         // dd($user);
+        // return view('user', ['data' => $user]);
 
 
 
@@ -127,6 +131,7 @@ class UserController extends Controller
         //     ],
         // );
         // $user->save();
+        // return view('user', ['data' => $user]);
 
 
 
@@ -198,12 +203,20 @@ class UserController extends Controller
         // $user->wasChanged(['username', 'nama']); //true
         // $user->wasChanged('nama'); //false
         // dd($user->wasChanged(['nama', 'username'])); //true
+        // return view('user', ['data' => $user]);
 
 
 
         // Prakticum 2.6
-        $user = UserModel::all();
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
+
+
+
+        // Prakticum 2.7
+        $user = UserModel::with('level')->get();
         return view('user', ['data' => $user]);
+
     }
 
     public function tambah()
