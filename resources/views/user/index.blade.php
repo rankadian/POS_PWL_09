@@ -48,58 +48,58 @@
                     </table>
                 </div>
             </div>
-        @endsection
+@endsection
 
         @push('css')
         @endpush
 
         @push('js')
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     var dataUser = $('#table_user').DataTable({
                         serverSide: true,
                         ajax: {
                             url: "{{ url('user/list') }}",
                             dataType: "json",
                             type: "POST",
-                            data: function(d) {
+                            data: function (d) {
                                 d.level_id = $('#level_id').val();
                             }
                         },
                         columns: [{
-                                data: "DT_RowIndex",
-                                className: "text-center",
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: "username",
-                                className: "",
-                                orderable: true,
-                                searchable: true
-                            },
-                            {
-                                data: "nama",
-                                className: "",
-                                orderable: true,
-                                searchable: true
-                            },
-                            {
-                                data: "level.level_nama",
-                                className: "",
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: "aksi",
-                                className: "",
-                                orderable: false,
-                                searchable: false
-                            }
+                            data: "DT_RowIndex",
+                            className: "text-center",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "username",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "nama",
+                            className: "",
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            data: "level.level_nama",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "aksi",
+                            className: "",
+                            orderable: false,
+                            searchable: false
+                        }
                         ]
                     });
 
-                    $('#level_id').change(function() {
+                    $('#level_id').on('change', function () {
                         dataUser.ajax.reload();
                     });
                 });
