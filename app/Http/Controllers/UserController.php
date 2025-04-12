@@ -194,6 +194,14 @@ class UserController extends Controller
         redirect('/');
     }
 
+    public function show_ajax(String $id)
+    {
+        $user = UserModel::find($id);
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.show_ajax', compact('user', 'level'));
+    }
+
     public function edit_ajax(string $id)
     {
 
@@ -246,13 +254,15 @@ class UserController extends Controller
         redirect('/');
     }
 
-    public function confirm_ajax(string $id){
+    public function confirm_ajax(string $id)
+    {
         $user = UserModel::find($id);;
 
         return view('user.confirm_ajax', ['user' => $user]);
     }
 
-    public function delete_ajax(Request $request, $id){
+    public function delete_ajax(Request $request, $id)
+    {
         // cek request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $user = UserModel::find($id);
