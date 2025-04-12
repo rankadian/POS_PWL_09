@@ -62,10 +62,10 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/', [UserController::class, 'store']);                         // menyimpan data user baru
     Route::get('/create_ajax', [UserController::class, 'create_ajax']);         // menampilkan halaman form tambah user ajax
     Route::post('/ajax', [UserController::class, 'store_ajax']);                // menyimpan data user baru ajax
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);        // menampilkan data user dengan ajax
     Route::get('/{id}', [UserController::class, 'show']);                       // menampilkan detail user
     Route::get('/{id}/edit', [UserController::class, 'edit']);                  // menampilkan halaman form edit user
     Route::put('/{id}', [UserController::class, 'update']);                     // menyimpan perubahan data user
-    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);        // menampilkan data user dengan ajax
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);        // menampilkan halaman form edit user ajax
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);    // menyimpan perubahan data user ajax
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);   // untuk memampilkan form confirm delete user ajax
@@ -75,16 +75,16 @@ Route::group(['prefix' => 'user'], function () {
 
 // tabel level
 Route::group(['prefix' => 'level'], function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/list', [UserController::class, 'list']);
-    Route::get('/create', [UserController::class, 'create']);
+    Route::get('/', [LevelController::class, 'index']);
+    Route::post('/list', [LevelController::class, 'list']);
+    Route::get('/create', [LevelController::class, 'create']);
     Route::post('/', [UserController::class, 'store']);
     Route::get('/create_ajax', [UserController::class, 'create_ajax']);
     Route::post('/ajax', [UserController::class, 'store_ajax']);
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::get('/{id}/edit', [UserController::class, 'edit']);
     Route::put('/{id}', [UserController::class, 'update']);
-    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
