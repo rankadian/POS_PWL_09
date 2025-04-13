@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\UserModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
+// use Illuminate\Support\Facades\Hash;
+// use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\LevelModel;
-use App\Models\User;
-use Dflydev\DotAccessData\Data;
-use Monolog\Level;
+// use App\Models\User;
+// use Dflydev\DotAccessData\Data;
+// use Monolog\Level;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
