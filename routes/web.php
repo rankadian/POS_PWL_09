@@ -112,3 +112,6 @@ Route::group(['prefix' => 'kategori'], function () {
 });
 
 // barang
+// stok
+// penjualan
+// detail_penjualan
