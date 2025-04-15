@@ -146,7 +146,7 @@ class LevelController extends Controller
         // cek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'level_kode' => 'required|string|max:20|unique:m_levels,level_kode',
+                'level_kode' => 'required|string|max:20|unique:m_level,level_kode',
                 'level_nama' => 'required|string|max:100',
             ];
 
