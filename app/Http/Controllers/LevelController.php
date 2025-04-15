@@ -64,7 +64,7 @@ class LevelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'level_kode' => 'required|string|max:20|unique:m_levels,level_kode',
+            'level_kode' => 'required|string|max:20|unique:m_level,level_kode',
             'level_nama' => 'required|string|max:100',
         ]);
 
