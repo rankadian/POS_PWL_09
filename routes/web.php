@@ -133,7 +133,7 @@ Route::group(['prefix' => 'barang'], function () {
 });
 
 // stok
-Route::group(['prefix' => 'barang'], function () {
+Route::group(['prefix' => 'stok'], function () {
     Route::get('/', [StokController::class, 'index']);
     Route::post('/list', [StokController::class, 'list']);
     Route::get('/create', [StokController::class, 'create']);
