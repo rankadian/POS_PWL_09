@@ -164,7 +164,7 @@ class KategoriController extends Controller
             KategoriModel::create($request->all());
             return response()->json([
                 'status'    => true,
-                'message'   => 'Data user berhasil disimpan'
+                'message'   => 'Data kategori berhasil disimpan'
             ]);
         }
         redirect('/');
@@ -237,9 +237,9 @@ class KategoriController extends Controller
     {
         // cek request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
-            $level = KategoriModel::find($id);
-            if ($level) {
-                $level->delete();
+            $kategori = KategoriModel::find($id);
+            if ($kategori) {
+                $kategori->delete();
                 return response()->json([
                     'status'    => true,
                     'message'   => 'Data berhasil dihapus'
