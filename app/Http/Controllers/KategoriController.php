@@ -50,7 +50,7 @@ class KategoriController extends Controller
     public function create()
     {
         $breadcrumb = (object) [
-            'title' => 'Tambah kategori',
+            'title' => 'Tambah Kategori',
             'list' => ['Home', 'Kategori', 'Tambah']
         ];
         $page = (object) [
