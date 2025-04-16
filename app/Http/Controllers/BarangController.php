@@ -41,6 +41,7 @@ class BarangController extends Controller
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
     }
+    
     public function create()
     {
         $breadcrumb = (object) [

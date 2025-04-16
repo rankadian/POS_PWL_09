@@ -31,9 +31,9 @@ class LevelController extends Controller
         $levels = LevelModel::select('level_id', 'level_kode', 'level_nama');
 
 
-        if ($request->level_id) {
-            $levels->where('level_id', $request->level_id);
-        }
+        // if ($request->level_id) {
+        //     $levels->where('level_id', $request->level_id);
+        // }
 
         return DataTables::of($levels)
             ->addIndexColumn()
