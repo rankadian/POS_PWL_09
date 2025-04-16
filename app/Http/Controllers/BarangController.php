@@ -30,7 +30,6 @@ class BarangController extends Controller
         $barangs = BarangModel::select('barang_id', 'kategori_id', 'barang_nama', 'barang_kode', 'harga_beli', 'harga_jual')->with('kategori');
 
         return DataTables::of($barangs)
-            // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex) 
             ->addIndexColumn()
             ->addColumn('aksi', function ($barang) {  // menambahkan kolom aksi 
                 $btn  = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
@@ -41,7 +40,7 @@ class BarangController extends Controller
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
     }
-    
+
     public function create()
     {
         $breadcrumb = (object) [
