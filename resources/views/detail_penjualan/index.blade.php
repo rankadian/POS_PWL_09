@@ -4,8 +4,8 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('/barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('detail_penjualan/create') }}">Tambah</a>
+                <button onclick="modalAction('{{ url('/detail_penjualan/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
                     Ajax</button>
             </div>
         </div>
@@ -21,25 +21,25 @@
                     <div class="form-group row">
                         <label for="Filter" class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
-                            <select name="barang_id" id="barang_id" class="form-control" required>
+                            <select name="kategori_id" id="kategori_id" class="form-control" required>
                                 <option value="">- Semua -</option>
-                                @foreach($kategori as $item)
-                                    <option value="{{ $item->barang_id }}">{{ $item->barang_id }}</option>
+                                @foreach($user as $item)
+                                    <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Kategori Barang</small>
+                            <small class="form-text text-muted">Data User</small>
                         </div>
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_barang">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_detail_penjualan">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nama Barang</th>
-                        <th>Username Pengguna</th>
-                        <th>Stok Tanggal</th>
-                        <th>Jumlah Stok</th>
+                        <th>Kode Penjualan</th>
+                        <th>Kode Barang</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
 
                         <th>Aksi</th>
                     </tr>
@@ -59,16 +59,16 @@
                 $('#myModal').modal('show');
             });
         }
-        var dataBarang;
+        var dataDetailPenjualan;
         $(document).ready(function () {
-            dataBarang = $('#table_barang').DataTable({
+            dataDetailPenjualan = $('#table_detail_penjualan').DataTable({
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('stok/list') }}",
+                    "url": "{{ url('detail_penjualan/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
-                        d.barang_id = $('#barang_id').val();
+                        d.user_id = $('#user_id').val();
                     }
                 },
                 columns: [{
@@ -77,38 +77,32 @@
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "barang_nama",
+                    data: "penjualan_kode",
                     className: "",
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: "username",
+                    data: "barang_kode",
                     className: "",
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: "stok_tanggal",
+                    data: "harga",
                     className: "",
                     orderable: true,
                     searchable: false
                 },
                 {
-                    data: "stok_jumlah",
+                    data: "jumlah",
                     className: "",
                     orderable: true,
-                    searchable: false
-                },
-                {
-                    data: "aksi",
-                    className: "",
-                    orderable: false,
                     searchable: false
                 }]
             });
-            $('#kategori_nama').change(function () {
-                dataBarang.ajax.reload();
+            $('#penjualan_id').change(function () {
+                dataDetailPenjualan.ajax.reload();
             });
         });
     </script>
