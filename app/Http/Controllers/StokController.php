@@ -32,34 +32,34 @@ class StokController extends Controller
     }
 
     public function list(Request $request)
-{
-    $stok = StokModel::with(['barang', 'user'])->select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah');
+    {
+        $stok = StokModel::with(['barang', 'user'])->select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah');
 
-    if ($request->barang_id) {
-        $stok->where('barang_id', $request->barang_id);
+        if ($request->barang_id) {
+            $stok->where('barang_id', $request->barang_id);
+        }
+
+        if ($request->user_id) {
+            $stok->where('user_id', $request->user_id);
+        }
+
+        return DataTables::of($stok)
+            ->addIndexColumn()
+            ->addColumn('barang_nama', function ($stok) {
+                return $stok->barang->barang_nama ?? '-';
+            })
+            ->addColumn('username', function ($stok) {
+                return $stok->user->username ?? '-';
+            })
+            ->addColumn('aksi', function ($stok) {
+                $btn  = '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
-
-    if ($request->user_id) {
-        $stok->where('user_id', $request->user_id);
-    }
-
-    return DataTables::of($stok)
-        ->addIndexColumn()
-        ->addColumn('barang_nama', function ($stok) {
-            return $stok->barang->barang_nama ?? '-';
-        })
-        ->addColumn('username', function ($stok) {
-            return $stok->user->username ?? '-';
-        })
-        ->addColumn('aksi', function ($stok) {
-            $btn  = '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-            $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-            $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
-            return $btn;
-        })
-        ->rawColumns(['aksi'])
-        ->make(true);
-}
 
 
     public function create()

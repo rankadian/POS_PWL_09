@@ -37,7 +37,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nama Barang</th>
-                        <th>Username User</th>
+                        <th>Username Pengguna</th>
                         <th>Stok Tanggal</th>
                         <th>Jumlah Stok</th>
 
