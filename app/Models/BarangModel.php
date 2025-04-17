@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\KategoriModel;
+use App\Models\StokModel;
+
 
 class BarangModel extends Model
 {
@@ -23,5 +25,9 @@ class BarangModel extends Model
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id');
+    }
+    public function stok()
+    {
+        return $this->hasMany(StokModel::class, 'barang_id', 'barang_id');
     }
 }

@@ -20,13 +20,14 @@ class StokModel extends Model
         'stok_jumlah'
     ];
 
-    public function barang(): BelongsTo
-    {
-        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
-    }
+    public function barang()
+{
+    return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
+}
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
-    }
+public function user()
+{
+    return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+}
+
 }

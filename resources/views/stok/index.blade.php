@@ -36,12 +36,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
-                        <th>Harga Beli</th>
-                        <th>Harga Jual</th>
-                        {{-- <th>Stok Tanggal</th> --}}
-                        {{-- <th>Jumlah Stok</th> --}}
+                        <th>Username User</th>
+                        <th>Stok Tanggal</th>
+                        <th>Jumlah Stok</th>
+
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -65,7 +64,7 @@
             dataBarang = $('#table_barang').DataTable({
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('barang/list') }}",
+                    "url": "{{ url('stok/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
@@ -78,41 +77,29 @@
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "barang_kode",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                },
-                {
                     data: "barang_nama",
                     className: "",
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: "harga_beli",
+                    data: "username",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "stok_tanggal",
                     className: "",
                     orderable: true,
                     searchable: false
                 },
                 {
-                    data: "harga_jual",
+                    data: "stok_jumlah",
                     className: "",
                     orderable: true,
                     searchable: false
                 },
-                // {
-                //     data: "Stok Tanggal",
-                //     className: "",
-                //     orderable: true,
-                //     searchable: false
-                // },
-                // {
-                //     data: "Jumlah Stok",
-                //     className: "",
-                //     orderable: true,
-                //     searchable: false
-                // },
                 {
                     data: "aksi",
                     className: "",
