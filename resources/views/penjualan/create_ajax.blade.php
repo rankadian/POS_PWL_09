@@ -33,7 +33,8 @@
 
             <div class="form-group">
                 <label>Tanggal Penjualan</label>
-                <input type="datetime-local" name="penjualan_kode" id="penjualan_kode" class="form-control" required>
+                <input type="datetime-local" name="penjualan_tanggal" id="penjualan_tanggal" class="form-control"
+                    required>
                 <small id="error-penjualan_kode" class="error-text form-text text-danger"></small>
             </div>
 

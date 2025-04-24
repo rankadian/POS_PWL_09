@@ -39,9 +39,9 @@ class StokController extends Controller
             $stok->where('barang_id', $request->barang_id);
         }
 
-        if ($request->user_id) {
-            $stok->where('user_id', $request->user_id);
-        }
+        // if ($request->user_id) {
+        //     $stok->where('user_id', $request->user_id);
+        // }
 
         return DataTables::of($stok)
             ->addIndexColumn()

@@ -23,9 +23,10 @@
                         <div class="col-3">
                             <select name="barang_id" id="barang_id" class="form-control" required>
                                 <option value="">- Semua -</option>
-                                @foreach($kategori as $item)
-                                    <option value="{{ $item->barang_id }}">{{ $item->barang_id }}</option>
+                                @foreach($barang as $item)
+                                    <option value="{{ $item->id }}">{{ $item->barang_nama }}</option>
                                 @endforeach
+
                             </select>
                             <small class="form-text text-muted">Kategori Barang</small>
                         </div>
@@ -76,7 +77,8 @@
                     className: "text-center",
                     orderable: false,
                     searchable: false
-                }, {
+                },
+                {
                     data: "barang_nama",
                     className: "",
                     orderable: true,
@@ -107,7 +109,7 @@
                     searchable: false
                 }]
             });
-            $('#kategori_nama').change(function () {
+            $('#barang_id').change(function () {
                 dataBarang.ajax.reload();
             });
         });

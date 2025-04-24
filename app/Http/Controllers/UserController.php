@@ -155,8 +155,7 @@ class UserController extends Controller
     {
         $level = LevelModel::select('level_id', 'level_nama')->get();
 
-        return view('user.create_ajax')
-            ->with('level', $level);
+        return view('user.create_ajax')->with('level', $level);
     }
 
     public function store_ajax(Request $request)
