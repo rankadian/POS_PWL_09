@@ -31,7 +31,7 @@
                                 @endforeach
 
                             </select>
-                            <small class="form-text text-muted">Kategori Barang</small>
+                            <small class="form-text text-muted">Nama Barang</small>
                         </div>
                     </div>
                 </div>
