@@ -76,7 +76,8 @@
                     className: "text-center",
                     orderable: false,
                     searchable: false
-                }, {
+                },
+                {
                     data: "username",
                     className: "",
                     orderable: true,
