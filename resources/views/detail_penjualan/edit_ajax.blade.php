@@ -11,12 +11,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/penjualan-detail') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/detail_penjualan') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/penjualan-detail/' . $penjualanDetail->detail_id . '/update_ajax') }}" method="POST"
+    <form action="{{ url('/detail_penjualan/' . $penjualanDetail->detail_id . '/update_ajax') }}" method="POST"
         id="form-edit">
         @csrf
         @method('PUT')
@@ -117,7 +117,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataPenjualanDetail.ajax.reload();
+                                dataDetailPenjualan.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {

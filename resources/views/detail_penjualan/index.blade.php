@@ -5,8 +5,8 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('penjualan-detail/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('penjualan-detail/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('detail_penjualan/create') }}">Tambah</a>
+                <button onclick="modalAction('{{ url('detail_penjualan/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -16,7 +16,7 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_penjualan_detail">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_detail_penjualan">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -44,23 +44,51 @@
                 $('#myModal').modal('show');
             });
         }
-        var dataPenjualanDetail;
+        var dataDetailPenjualan;
         $(document).ready(function () {
-            dataPenjualanDetail = $('#table_penjualan_detail').DataTable({
+            dataDetailPenjualan = $('#table_detail_penjualan').DataTable({
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('penjualan-detail/list') }}",
+                    "url": "{{ url('detail_penjualan/list') }}",
                     "dataType": "json",
                     "type": "POST",
                 },
-                columns: [
-                    { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
-                    { data: "penjualan_id", className: "", orderable: true, searchable: true },
-                    { data: "barang_id", className: "", orderable: true, searchable: true },
-                    { data: "harga", className: "", orderable: true, searchable: true },
-                    { data: "jumlah", className: "", orderable: true, searchable: true },
-                    { data: "aksi", className: "", orderable: false, searchable: false }
-                ]
+                columns: [{
+                    data: "DT_RowIndex",
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "pejualan_id",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "barang_id",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "harga",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "jumlah",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
+                    searchable: false
+                }]
             });
         });
     </script>

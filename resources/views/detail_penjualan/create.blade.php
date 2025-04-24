@@ -7,7 +7,7 @@
         <div class="card-tools"></div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('penjualan-detail.store') }}" class="form-horizontal">
+        <form method="POST" action="{{ route('detail_penjualan.store') }}" class="form-horizontal">
             @csrf
 
             {{-- Penjualan --}}
@@ -65,7 +65,7 @@
             <div class="form-group row">
                 <div class="col-10 offset-2">
                     <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
-                    <a href="{{ route('penjualan-detail.index') }}" class="btn btn-sm btn-secondary ml-1">Kembali</a>
+                    <a href="{{ route('detail_penjualan.index') }}" class="btn btn-sm btn-secondary ml-1">Kembali</a>
                 </div>
             </div>
         </form>
@@ -77,7 +77,7 @@
         e.preventDefault();
 
         $.ajax({
-            url: "{{ url('/penjualan-detail/ajax') }}",
+            url: "{{ url('/detail_penjualan/ajax') }}",
             method: 'POST',
             data: $(this).serialize(),
             success: function (res) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WellcomeController;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);        // menampilkan halaman form edit user ajax
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);    // menyimpan perubahan data user ajax
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);   // untuk memampilkan form confirm delete user ajax
-    // Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); // untuk hapus data user ajax
+    Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); // untuk hapus data user ajax
     Route::delete('/{id}', [UserController::class, 'destroy']);                 // menghapus data user
 });
 
@@ -130,6 +131,23 @@ Route::group(['prefix' => 'penjualan'], function () {
     Route::delete('/{id}', [PenjualanController::class, 'destroy']);
 });
 
+Route::group(['prefix' => 'detail_penjualan'], function () {
+    Route::get('/', [DetailPenjualanController::class, 'index']);
+    Route::post('/list', [DetailPenjualanController::class, 'list']);
+    Route::get('/create', [DetailPenjualanController::class, 'create']);
+    Route::post('/', [DetailPenjualanController::class, 'store']);
+    Route::get('/create_ajax', [DetailPenjualanController::class, 'create_ajax']);
+    Route::post('/ajax', [DetailPenjualanController::class, 'store_ajax']);
+    Route::get('/{id}/show_ajax', [DetailPenjualanController::class, 'show_ajax']);
+    Route::get('/{id}', [DetailPenjualanController::class, 'show']);
+    Route::get('/{id}/edit', [DetailPenjualanController::class, 'edit']);
+    Route::put('/{id}', [DetailPenjualanController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [DetailPenjualanController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [DetailPenjualanController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [DetailPenjualanController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [DetailPenjualanController::class, 'delete_ajax']);
+    Route::delete('/{id}', [DetailPenjualanController::class, 'destroy']);
+});
 
 // Auth
 // Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter {id}, maka harus berupa angka
@@ -284,7 +302,7 @@ Route::group(['prefix' => 'penjualan'], function () {
 //         });
 
 //         // detail_penjualan
-//         // Route::group(['prefix' => 'penjualan'], function () {
+//         // Route::group(['prefix' => 'detail_penjualan'], function () {
 //         // Route::get('/', [DetailPenjualanController::class, 'index']);
 //         // Route::post('/list', [DetailPenjualanController::class, 'list']);
 //         // Route::get('/create', [DetailPenjualanController::class, 'create']);

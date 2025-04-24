@@ -12,7 +12,7 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data detail penjualan tidak ditemukan.
                 </div>
-                <a href="{{ url('/penjualan-detail') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/detail_penjualan') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>

@@ -64,10 +64,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/penjualan-detail') }}"
-                    class="nav-link {{ $activeMenu == 'penjualan-detail' ? 'active' : '' }}">
+                <a href="{{ url('/detail_penjualan') }}"
+                    class="nav-link {{ $activeMenu == 'detail_penjualan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-shipping-fast"></i>
                     <p>Detail Penjualan</p>
+                </a>
+            </li>
+
+            <li class="nav-header">Logout</li>
+            <li class="nav-item">
+                <a href="{{ url('/logout') }}" class="nav-link {{ $activeMenu == 'logout' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
+                    <p class="text-danger">Logout</p>
                 </a>
             </li>
         </ul>
