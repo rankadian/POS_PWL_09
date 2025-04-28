@@ -32,7 +32,7 @@ class DetailPenjualanController extends Controller
 
     public function list(Request $request)
     {
-        $detail = PenjualanModel::with(['user'])->select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal');
+        $detail = DetailPenjualanModel::with(['penjualan', 'barang']);
 
         if ($request->penjualan_id) {
             $detail->where('penjualan_id', $request->penjualan_id);
@@ -44,16 +44,23 @@ class DetailPenjualanController extends Controller
 
         return DataTables::of($detail)
             ->addIndexColumn()
-            ->addColumn('penjualan_kode', function ($detail_penjualan) {
-                return $detail_penjualan->penjualan->penjualan_kode ?? '-';
-            })
-            ->addColumn('barang_kode', function ($detail_penjualan) {
-                return $detail_penjualan->barang->barang_kode ?? '-';
-            })
+            // ->addColumn('barang_id', function ($row) {
+            //     return $row->barang ? $row->barang->nama_barang : '-';
+            // })
+            // ->addColumn('barang_id', function ($row) {
+            //     return $row->barang ? $row->barang->nama_barang : '-';
+            // })
+            // ->addColumn('penjualan_id', function ($detail_penjualan) {
+            //     return $detail_penjualan->penjualan_id ? $detail_penjualan->penjualan->penjualan_kode : '-';
+            // })
+            // ->addColumn('barang_id', function ($detail_penjualan) {
+            //     return $detail_penjualan->barang_id ? $detail_penjualan->barang->barang_nama : 'NO RELATION';
+            // })
+            ->addColumn('subtotal', fn($detail_penjualan) => $detail_penjualan->jumlah * $detail_penjualan->harga)
             ->addColumn('aksi', function ($detail_penjualan) {
-                $btn  = '<button onclick="modalAction(\'' . url('/penjualan/' . $detail_penjualan->penjualan_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $detail_penjualan->penjualan_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $detail_penjualan->penjualan_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn  = '<button onclick="modalAction(\'' . url('/detail_penjualan/' . $detail_penjualan->penjualan_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/detail_penjualan/' . $detail_penjualan->penjualan_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/detail_penjualan/' . $detail_penjualan->penjualan_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['aksi'])
@@ -208,12 +215,13 @@ class DetailPenjualanController extends Controller
     }
 
     public function edit_ajax(string $id)
-    {
-        $detail_penjualan = DetailPenjualanModel::find($id);
-        $penjualan = PenjualanModel::all();
-        $barang = BarangModel::all();
-        return view('penjualan.edit_ajax', ['detail_penjualan' => $detail_penjualan, 'penjualan' => $penjualan, 'barang' => $barang]);
-    }
+{
+    $detail_penjualan = DetailPenjualanModel::find($id);
+    $penjualan = PenjualanModel::all();
+    $barang = BarangModel::all();
+
+    return view('detail_penjualan.edit_ajax', ['penjualanDetail' => $detail_penjualan, 'penjualan' => $penjualan, 'barang' => $barang]);
+}
 
     public function update_ajax(Request $request, $id)
     {

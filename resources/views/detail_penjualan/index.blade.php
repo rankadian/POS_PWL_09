@@ -6,9 +6,11 @@
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('detail_penjualan/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('detail_penjualan/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('detail_penjualan/create_ajax') }}')"
+                    class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div>
+
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
@@ -16,6 +18,25 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label for="Filter" class="col-1 control-label col-form-label">Filter:</label>
+                        <div class="col-3">
+                            <select name="barang_id" id="barang_id" class="form-control">
+                                <option value="">- Semua -</option>
+                                @foreach($barang as $item)
+                                    <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
+                                @endforeach
+
+                            </select>
+                            <small class="form-text text-muted">Nama Barang</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <table class="table table-bordered table-striped table-hover table-sm" id="table_detail_penjualan">
                 <thead>
                     <tr>
@@ -60,13 +81,13 @@
                     searchable: false
                 },
                 {
-                    data: "pejualan_id",
+                    data: "penjualan.pembeli",
                     className: "",
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: "barang_id",
+                    data: "barang.barang_nama",
                     className: "",
                     orderable: true,
                     searchable: true
@@ -89,6 +110,9 @@
                     orderable: false,
                     searchable: false
                 }]
+            });
+            $('#barang_id').on('change', function () {
+                dataStok.ajax.reload();
             });
         });
     </script>

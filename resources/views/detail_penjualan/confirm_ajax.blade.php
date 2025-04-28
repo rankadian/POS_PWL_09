@@ -1,4 +1,4 @@
-@empty($penjualanDetail)
+@empty($detailPenjualan)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/detail_penjualan/' . $penjualanDetail->detail_id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/detail_penjualan/' . $detailPenjualan->detail_id . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -34,19 +34,19 @@
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
                             <th class="text-right col-3">Penjualan ID :</th>
-                            <td class="col-9">{{ $penjualanDetail->penjualan_id }}</td>
+                            <td class="col-9">{{ $detailPenjualan->penjualan_id }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Barang ID :</th>
-                            <td class="col-9">{{ $penjualanDetail->barang_id }}</td>
+                            <td class="col-9">{{ $detailPenjualan->barang_id }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Harga :</th>
-                            <td class="col-9">{{ $penjualanDetail->harga }}</td>
+                            <td class="col-9">{{ $detailPenjualan->harga }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Jumlah :</th>
-                            <td class="col-9">{{ $penjualanDetail->jumlah }}</td>
+                            <td class="col-9">{{ $detailPenjualan->jumlah }}</td>
                         </tr>
                     </table>
                 </div>

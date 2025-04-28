@@ -1,4 +1,4 @@
-@empty($penjualanDetail)
+@empty($detail_penjualan)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/detail_penjualan/' . $penjualanDetail->detail_id . '/update_ajax') }}" method="POST"
+    <form action="{{ url('/detail_penjualan/' . $detail_penjualan->detail_id . '/update_ajax') }}" method="POST"
         id="form-edit">
         @csrf
         @method('PUT')
@@ -30,12 +30,12 @@
                 <div class="modal-body">
                     {{--  <div class="form-group">
                         <label>Penjualan ID</label>
-                        <input value="{{ $penjualanDetail->penjualan_id }}" type="text" name="penjualan_id" id="penjualan_id" class="form-control" required>
+                        <input value="{{ $detail_penjualan->penjualan_id }}" type="text" name="penjualan_id" id="penjualan_id" class="form-control" required>
                         <small id="error-penjualan_id" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Barang ID</label>
-                        <input value="{{ $penjualanDetail->barang_id }}" type="text" name="barang_id" id="barang_id" class="form-control" required>
+                        <input value="{{ $detail_penjualan->barang_id }}" type="text" name="barang_id" id="barang_id" class="form-control" required>
                         <small id="error-barang_id" class="error-text form-text text-danger"></small>
                     </div>  --}}
                     <div class="form-group">
@@ -44,7 +44,7 @@
                             <option value="">- Pilih Kode Penjualan -</option>
                             @foreach ($penjualan as $item)
                                 <option value="{{ $item->penjualan_id }}"
-                                    {{ $penjualanDetail->penjualan_id == $item->penjualan_id ? 'selected' : '' }}>
+                                    {{ $detail_penjualan->penjualan_id == $item->penjualan_id ? 'selected' : '' }}>
                                     {{ $item->penjualan_kode ?? 'ID: ' . $item->penjualan_id }}
                                 </option>
                             @endforeach
@@ -57,7 +57,7 @@
                             <option value="">- Pilih Barang -</option>
                             @foreach ($barangs as $barang)
                                 <option value="{{ $barang->barang_id }}"
-                                    {{ $penjualanDetail->barang_id == $barang->barang_id ? 'selected' : '' }}>
+                                    {{ $detail_penjualan->barang_id == $barang->barang_id ? 'selected' : '' }}>
                                     {{ $barang->barang_kode }} - {{ $barang->nama_barang }}
                                 </option>
                             @endforeach
@@ -67,13 +67,13 @@
 
                     <div class="form-group">
                         <label>Harga</label>
-                        <input value="{{ $penjualanDetail->harga }}" type="number" name="harga" id="harga"
+                        <input value="{{ $detail_penjualan->harga }}" type="number" name="harga" id="harga"
                             class="form-control" required>
                         <small id="error-harga" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>
-                        <input value="{{ $penjualanDetail->jumlah }}" type="number" name="jumlah" id="jumlah"
+                        <input value="{{ $detail_penjualan->jumlah }}" type="number" name="jumlah" id="jumlah"
                             class="form-control" required>
                         <small id="error-jumlah" class="error-text form-text text-danger"></small>
                     </div>
