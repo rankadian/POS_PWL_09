@@ -41,8 +41,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Penjualan ID</th>
-                        <th>Barang ID</th>
+                        <th>Pembeli</th>
+                        <th>Nama Barang</th>
                         <th>Harga</th>
                         <th>Jumlah</th>
                         <th>Aksi</th>
@@ -73,6 +73,9 @@
                     "url": "{{ url('detail_penjualan/list') }}",
                     "dataType": "json",
                     "type": "POST",
+                    "data": function (d) {
+                        d.barang_id = $('#barang_id').val();
+                    }
                 },
                 columns: [{
                     data: "DT_RowIndex",
@@ -111,8 +114,8 @@
                     searchable: false
                 }]
             });
-            $('#barang_id').on('change', function () {
-                dataStok.ajax.reload();
+            $('#barang_id').change(function () {
+                dataDetailPenjualan.ajax.reload();
             });
         });
     </script>

@@ -32,7 +32,8 @@ class DetailPenjualanController extends Controller
 
     public function list(Request $request)
     {
-        $detail = DetailPenjualanModel::with(['penjualan', 'barang']);
+        // $detail = DetailPenjualanModel::with(['penjualan', 'barang']);
+        $detail = DetailPenjualanModel::with(['penjualan', 'barang'])->select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah');
 
         if ($request->penjualan_id) {
             $detail->where('penjualan_id', $request->penjualan_id);
@@ -47,9 +48,9 @@ class DetailPenjualanController extends Controller
             // ->addColumn('barang_id', function ($row) {
             //     return $row->barang ? $row->barang->nama_barang : '-';
             // })
-            // ->addColumn('barang_id', function ($row) {
-            //     return $row->barang ? $row->barang->nama_barang : '-';
-            // })
+            ->addColumn('barang_nama', function ($barang) {
+                return $barang->barang->nama_barang ?? '-';
+            })
             // ->addColumn('penjualan_id', function ($detail_penjualan) {
             //     return $detail_penjualan->penjualan_id ? $detail_penjualan->penjualan->penjualan_kode : '-';
             // })
@@ -215,13 +216,13 @@ class DetailPenjualanController extends Controller
     }
 
     public function edit_ajax(string $id)
-{
-    $detail_penjualan = DetailPenjualanModel::find($id);
-    $penjualan = PenjualanModel::all();
-    $barang = BarangModel::all();
+    {
+        $detail_penjualan = DetailPenjualanModel::find($id);
+        $penjualan = PenjualanModel::all();
+        $barang = BarangModel::all();
 
-    return view('detail_penjualan.edit_ajax', ['penjualanDetail' => $detail_penjualan, 'penjualan' => $penjualan, 'barang' => $barang]);
-}
+        return view('detail_penjualan.edit_ajax', ['penjualanDetail' => $detail_penjualan, 'penjualan' => $penjualan, 'barang' => $barang]);
+    }
 
     public function update_ajax(Request $request, $id)
     {
