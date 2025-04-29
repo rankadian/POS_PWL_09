@@ -8,37 +8,34 @@
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                       {{-- Penjualan --}}
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Kode Penjualan</label>
-                <div class="col-10">
-                    <select name="penjualan_id" class="form-control" required>
-                        <option value="">- Pilih Kode Penjualan -</option>
-                        @foreach ($penjualan as $item)
-                            <option value="{{ $item->penjualan_id }}" {{ old('penjualan_id') == $item->penjualan_id ? 'selected' : '' }}>
-                                {{ $item->penjualan_kode ?? 'ID: '.$item->penjualan_id }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('penjualan_id') <small class="text-danger">{{ $message }}</small> @enderror
+                {{-- Penjualan --}}
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Kode Penjualan</label>
+                    <div class="col-10">
+                        <select name="penjualan_id" id="penjualan_id" class="form-control" required>
+                            <option value="">- Pilih Kode Penjualan -</option>
+                            @foreach ($penjualan as $p)
+                                <option value="{{ $p->penjualan_id }}">{{ $p->penjualan_kode }} - {{$p->penjualan_tanggal}}</option>
+                            @endforeach
+                        </select>
+                        @error('penjualan_id') <small class="text-danger">{{ $message }}</small> @enderror
+                    </div>
                 </div>
-            </div>
 
-            {{-- Barang --}}
-            <div class="form-group row">
-                <label class="col-2 col-form-label">Barang</label>
-                <div class="col-10">
-                    <select name="barang_id" class="form-control" required>
-                        <option value="">- Pilih Barang -</option>
-                        @foreach($barangs as $barang)
-                            <option value="{{ $barang->barang_id }}" {{ old('barang_id') == $barang->barang_id ? 'selected' : '' }}>
-                                {{ $barang->barang_kode }} - {{ $barang->nama_barang }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('barang_id') <small class="text-danger">{{ $message }}</small> @enderror
+                {{-- Barang --}}
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Barang</label>
+                    <div class="col-10">
+                        <select name="barang_id" class="form-control" required>
+                            <option value="">- Pilih Barang -</option>
+                            @foreach($barang as $b)
+                                <option value="{{ $b->barang_id }}" }}>{{ $b->barang_kode }} - {{ $b->barang_nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('barang_id') <small class="text-danger">{{ $message }}</small> @enderror
+                    </div>
                 </div>
-            </div>
                 <div class="form-group">
                     <label>Harga</label>
                     <input type="number" name="harga" id="harga" class="form-control" required>
