@@ -6,7 +6,10 @@ use App\Models\BarangModel;
 use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class BarangController extends Controller
 {
@@ -44,6 +47,7 @@ class BarangController extends Controller
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
     }
+
 
     public function create()
     {
@@ -212,6 +216,14 @@ class BarangController extends Controller
         return view('barang.edit_ajax', ['barang' => $barang, 'kategori' => $kategori]);
     }
 
+    // public function edit_ajax($id)
+    // {
+    //     $barang = BarangModel::find($id);
+    //     $level = LevelModel::select('level_id', 'level_nama')->get();
+    //     return view('barang.edit_ajax', ['barang' => $barang, 'level' => $level]);
+    // }
+
+
     public function update_ajax(Request $request, $id)
     {
         // cek apakah request dari ajax 
@@ -285,5 +297,71 @@ class BarangController extends Controller
             }
         }
         redirect('/');
+    }
+
+    public function import()
+    {
+        return view('barang.import');
+    }
+
+    public function importData(Request $req)
+    {
+        if (!$req->ajax() && !$req->wantsJson()) {
+            return redirect('/');
+        }
+
+        $rules = [
+            'file_barang' => ['required', 'mimes:xlsx', 'max:1024']
+        ];
+
+        $validator = Validator::make($req->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi gagal',
+                'msgField' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $file = $req->file('file_barang');
+
+        $reader = IOFactory::createReader('xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $data = $sheet->toArray(null, false, true, true);
+
+        $insert = [];
+        if (count($data) <= 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tidak ada data yang diimport'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        foreach ($data as $row => $val) {
+            if ($row > 1) {
+                $insert[] = [
+                    'kategori_id' => $val['A'],
+                    'barang_kode' => $val['B'],
+                    'barang_nama' => $val['C'],
+                    'supplier_id' => $val['D'],
+                    'harga_beli' => $val['E'],
+                    'harga_jual' => $val['F'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+        }
+
+        if (count($insert) > 0) {
+            BarangModel::insertOrIgnore($insert);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data berhasil diimport'
+        ], Response::HTTP_OK);
     }
 }

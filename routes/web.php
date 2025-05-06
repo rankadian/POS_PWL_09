@@ -236,21 +236,21 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'index')->name('barang.index');
             Route::post('/list',  'list')->name('barang.list');
             Route::get('/create', 'create')->name('barang.create');
-            Route::get('/create-ajax', 'createAjax')->name('barang.create-ajax');
+            Route::get('/create_ajax', 'create_ajax')->name('barang.create_ajax');
             Route::post('/', 'store')->name('barang.store');
-            Route::post('/store-ajax', 'storeAjax')->name('barang.store-ajax');
+            Route::post('/store_ajax', 'store_ajax')->name('barang.store_ajax');
             Route::get('/{id}', 'show')->name('barang.show');
             Route::get('/{id}/edit', 'edit')->name('barang.edit');
-            Route::get('/{id}/edit-ajax', 'editAjax')->name('barang.edit-ajax');
+            Route::get('/{id}/edit_ajax', 'edit_ajax')->name('barang.edit_ajax');
             Route::put('/{id}', 'update')->name('barang.update');
-            Route::put('/{id}/update-ajax', 'updateAjax')->name('barang.update-ajax');
+            Route::put('/{id}/update_ajax', 'update_ajax')->name('barang.update_ajax');
             Route::delete('/{id}', 'destroy')->name('barang.destroy');
-            Route::get('/{id}/delete-ajax', 'confirmDeleteAjax')->name('barang.confirm-delete-ajax');
-            Route::delete('/{id}/delete-ajax', 'deleteAjax')->name('barang.delete-ajax');
+            Route::get('/{id}/delete_ajax', 'confirm_ajax')->name('barang.confirm_ajax');
+            Route::delete('/{id}/delete_ajax', 'delete_ajax')->name('barang.delete_ajax');
             Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 
-            // Route::get('/import', 'showImport')->name('barang.import');
-            // Route::post('/import', 'importData')->name('barang.importData.post');
+            Route::get('/import', 'import')->name('barang.import');
+            Route::post('/import', 'import_ajax')->name('barang.import_ajax');
         });
 
     //Stok barang
