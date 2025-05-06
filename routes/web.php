@@ -250,7 +250,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}/show_ajax', 'show_ajax')->name('barang.show_ajax');
 
             Route::get('/import', 'import')->name('barang.import');
-            Route::post('/import', 'import_ajax')->name('barang.import_ajax');
+            Route::post('/import_ajax', 'import_ajax')->name('barang.import_ajax');
+            Route::get('/export_excel', 'export_excel')->name('barang.export_excel');
+            Route::get('/export_pdf', 'export_pdf')->name('barang.export_pdf');
         });
 
     //Stok barang
