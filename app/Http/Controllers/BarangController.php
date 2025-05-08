@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class BarangController extends Controller
@@ -421,6 +422,15 @@ class BarangController extends Controller
 
     public function export_pdf()
     {
-        // 
+        $barang = BarangModel::select('kategori_id','barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+                    ->orderBy('kategori_id')
+                    ->orderBy('barang_kode')
+                    ->with('kategori')
+                    ->get();
+
+        
+        $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
+        $pdf->setPaper('a4', 'potrait'); //set ukuran dan orientasi kertas
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
     }
 }
