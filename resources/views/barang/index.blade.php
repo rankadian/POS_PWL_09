@@ -7,9 +7,12 @@
 
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-warning">Import Barang</button>
-                <a href="{{ url('/barang/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i>Export Barang</a>
-                <a href="{{ url('/barang/export_pdf') }}" class="btn btn-secondary"><i class="fa fa-file-pdf"></i> Export Barang</a>
-                <button onclick="modalAction('{{ url('/barang/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
+                <a href="{{ url('/barang/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i>Export
+                    Barang</a>
+                <a href="{{ url('/barang/export_pdf') }}" class="btn btn-secondary"><i class="fa fa-file-pdf"></i> Export
+                    Barang</a>
+                <button onclick="modalAction('{{ url('/barang/create_ajax') }}')" class="btn btn-success">Tambah Data
+                    (Ajax)</button>
             </div>
         </div>
         <div class="card-body">
@@ -20,9 +23,10 @@
                         <div class="form-group form-group-sm row text-sm mb-0">
                             <label for="filter_date" class="col-md-1 col-form-label">Filter</label>
                             <div class="col-md-3">
-                                <select name="filter_kategori" class="form-control form-control-sm filter_kategori">
-                                    <option value="">- Semua -</option> @foreach($kategori as $l)
-                                        <option value="{{ $l->kategori_id }}">{{ $l->kategori_nama }}</option>
+                                <select name="kategori_id" id="kategori_id" class="form-control">
+                                    <option value="">- Semua -</option>
+                                    @foreach($kategori as $k)
+                                        <option value="{{ $k->kategori_id }}">{{ $k->kategori_nama }}</option>
                                     @endforeach
                                 </select>
                                 <small class="form-text text-muted">Kategori Barang</small>
