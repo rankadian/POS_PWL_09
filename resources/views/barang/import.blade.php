@@ -12,15 +12,12 @@
                     <label>Download Template</label>
                     <a href="{{ asset('template_barang.xlsx') }}" class="btn btn-info btn- sm" download><i
                             class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-kategori_id" class="error-text form-text text-
-    danger"></small>
+                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="form-
-    control" required>
-                    <small id="error-file_barang" class="error-text form-text text-
-    danger"></small>
+                    <input type="file" name="file_barang" id="file_barang" class="form-control" required>
+                    <small id="error-file_barang" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -37,13 +34,11 @@
                 file_barang: { required: true, extension: "xlsx" },
             },
             submitHandler: function (form) {
-                var formData = new FormData(form); // Jadikan form ke FormData untuk
-    menghandle file
+                var formData = new FormData(form); // Jadikan form ke FormData untukmenghandle file
                 $.ajax({
                     url: form.action, type: form.method,
-                    data: formData,	// Data yang dikirim berupa FormData processData: false, // setting processData dan contentType ke false,
-                    untuk menghandle file
-    contentType: false,
+                    data: formData,	// Data yang dikirim berupa FormData processData: false, // setting processData dan contentType ke false,untuk menghandle file
+                    contentType: false,
                     success: function (response) {
                         if (response.status) { // jika sukses
                             $('#myModal').modal('hide'); Swal.fire({
