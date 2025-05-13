@@ -218,6 +218,7 @@ class BarangController extends Controller
         return view('barang.edit_ajax', ['barang' => $barang, 'kategori' => $kategori]);
     }
 
+    // jobsheet
     // public function edit_ajax($id)
     // {
     //     $barang = BarangModel::find($id);
@@ -306,66 +307,64 @@ class BarangController extends Controller
         return view('barang.import');
     }
 
-    public function import_ajax(Request $req)
+    public function import_ajax(Request $request)
     {
-        if (!$req->ajax() && !$req->wantsJson()) {
-            return redirect('/');
-        }
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_barang' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
 
-        $rules = [
-            'file_barang' => ['required', 'mimes:xlsx', 'max:1024']
-        ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
 
-        $validator = Validator::make($req->all(), $rules);
+            $file = $request->file('file_barang');
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validasi gagal',
-                'msgField' => $validator->errors()
-            ], Response::HTTP_BAD_REQUEST);
-        }
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
 
-        $file = $req->file('file_barang');
+            $data = $sheet->toArray(null, false, true, true);
 
-        $reader = IOFactory::createReader('xlsx');
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load($file->getRealPath());
-        $sheet = $spreadsheet->getActiveSheet();
+            $insert = [];
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) {
+                        $insert[] = [
+                            'kategori_id' => $value['A'],
+                            'barang_kode' => $value['B'],
+                            'barang_nama' => $value['C'],
+                            'harga_beli' => $value['D'],
+                            'harga_jual' => $value['E'],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
 
-        $data = $sheet->toArray(null, false, true, true);
+                if (count($insert) > 0) {
+                    BarangModel::insertOrIgnore($insert);
+                }
 
-        $insert = [];
-        if (count($data) <= 1) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Tidak ada data yang diimport'
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
-        foreach ($data as $row => $val) {
-            if ($row > 1) {
-                $insert[] = [
-                    'kategori_id' => $val['A'],
-                    'barang_kode' => $val['B'],
-                    'barang_nama' => $val['C'],
-                    'supplier_id' => $val['D'],
-                    'harga_beli' => $val['E'],
-                    'harga_jual' => $val['F'],
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
             }
         }
-
-        if (count($insert) > 0) {
-            BarangModel::insertOrIgnore($insert);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Data berhasil diimport'
-        ], Response::HTTP_OK);
+        return redirect('/');
     }
+
 
     public function export_excel()
     {
@@ -422,15 +421,18 @@ class BarangController extends Controller
 
     public function export_pdf()
     {
-        $barang = BarangModel::select('kategori_id','barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
-                    ->orderBy('kategori_id')
-                    ->orderBy('barang_kode')
-                    ->with('kategori')
-                    ->get();
+        $barang = BarangModel::select('kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+            ->orderBy('kategori_id')
+            ->orderBy('barang_kode')
+            ->with('kategori')
+            ->get();
 
-        
+
         $pdf = Pdf::loadView('barang.export_pdf', ['barang' => $barang]);
-        $pdf->setPaper('a4', 'potrait'); //set ukuran dan orientasi kertas
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption("isRemoteEnabled", true);
+        $pdf->render();
+
+        return $pdf->stream('Data Barang ' . date('Y-m-d H-i-s') . '.pdf');
     }
 }

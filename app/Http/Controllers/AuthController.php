@@ -83,7 +83,7 @@ class AuthController extends Controller
         $user = UserModel::create([
             'username' => $req->username,
             'nama' => $req->nama,
-            'level_id' => $req->level_id,
+            'level_id' => 3,
             'password' => Hash::make($req->password)
         ]);
 
