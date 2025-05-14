@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class UserModel extends Authenticatable
 {
@@ -37,5 +38,19 @@ class UserModel extends Authenticatable
     public function getRole()
     {
         return $this->level->level_kode;
+    }
+
+    // protected function image(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($image) => url($image)
+    //     );
+    // }
+
+    public function getProfilePictureUrl()
+    {
+        return $this->image
+            ? asset($this->image)
+            : asset('adminlte/dist/img/user2-160x160.jpg');
     }
 }
