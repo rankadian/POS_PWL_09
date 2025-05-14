@@ -36,23 +36,28 @@
             submitHandler: function (form) {
                 var formData = new FormData(form); // Jadikan form ke FormData untukmenghandle file
                 $.ajax({
-                    url: form.action, type: form.method,
-                    data: formData,	// Data yang dikirim berupa FormData processData: false, // setting processData dan contentType ke false,untuk menghandle file
+                    url: form.action,
+                    type: form.method,
+                    data: formData,
+                    processData: false,
                     contentType: false,
                     success: function (response) {
-                        if (response.status) { // jika sukses
-                            $('#myModal').modal('hide'); Swal.fire({
-                                icon: 'success', title: 'Berhasil', text: response.message
-                            });
-                            tableBarang.ajax.reload(); // reload datatable
-                        } else { // jika error
+                        // your existing success code
+                    },
+                    error: function (xhr) {
+                        // This will catch 302 and other errors
+                        if (xhr.status === 422) {
+                            // Laravel validation errors
+                            var errors = xhr.responseJSON.errors;
                             $('.error-text').text('');
-                            $.each(response.msgField, function (prefix, val) {
+                            $.each(errors, function (prefix, val) {
                                 $('#error-' + prefix).text(val[0]);
                             });
+                        } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Terjadi Kesalahan', text: response.message
+                                title: 'Error ' + xhr.status,
+                                text: xhr.statusText
                             });
                         }
                     }
