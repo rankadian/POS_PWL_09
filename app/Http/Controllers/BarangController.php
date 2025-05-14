@@ -11,6 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 
 class BarangController extends Controller
@@ -309,60 +310,109 @@ class BarangController extends Controller
 
     public function import_ajax(Request $request)
     {
-        if ($request->ajax() || $request->wantsJson()) {
+        // Always return JSON for this endpoint
+        if (!$request->expectsJson()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid request type'
+            ], 400);
+        }
+
+        try {
             $rules = [
-                'file_barang' => ['required', 'mimes:xlsx', 'max:1024']
+                'file_barang' => ['required', 'mimes:xlsx,xls', 'max:2048'] // Increased size and added xls
             ];
 
             $validator = Validator::make($request->all(), $rules);
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Validasi Gagal',
                     'msgField' => $validator->errors()
-                ]);
+                ], 422); // Important: Use 422 for validation errors
             }
 
             $file = $request->file('file_barang');
 
+            // Validate file structure before processing
             $reader = IOFactory::createReader('Xlsx');
             $reader->setReadDataOnly(true);
             $spreadsheet = $reader->load($file->getRealPath());
             $sheet = $spreadsheet->getActiveSheet();
-
             $data = $sheet->toArray(null, false, true, true);
 
+            if (count($data) <= 1) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'File kosong atau format tidak sesuai'
+                ], 400);
+            }
+
             $insert = [];
-            if (count($data) > 1) {
-                foreach ($data as $baris => $value) {
-                    if ($baris > 1) {
-                        $insert[] = [
-                            'kategori_id' => $value['A'],
-                            'barang_kode' => $value['B'],
-                            'barang_nama' => $value['C'],
-                            'harga_beli' => $value['D'],
-                            'harga_jual' => $value['E'],
-                            'created_at' => now(),
-                        ];
-                    }
+            $errors = [];
+
+            foreach ($data as $baris => $value) {
+                if ($baris == 1) continue; // Skip header
+
+                // Validate each row
+                if (empty($value['A']) || empty($value['B']) || empty($value['C'])) {
+                    $errors[] = "Baris $baris: Data penting kosong";
+                    continue;
                 }
 
-                if (count($insert) > 0) {
-                    BarangModel::insertOrIgnore($insert);
-                }
+                $insert[] = [
+                    'kategori_id' => $value['A'],
+                    'barang_kode' => $value['B'],
+                    'barang_nama' => $value['C'],
+                    'harga_beli' => $value['D'] ?? 0,
+                    'harga_jual' => $value['E'] ?? 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            if (!empty($errors)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Beberapa data tidak valid',
+                    'errors' => $errors
+                ], 422);
+            }
+
+            if (empty($insert)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Tidak ada data yang valid untuk diimport'
+                ], 400);
+            }
+
+            // Use transaction for safety
+            DB::beginTransaction();
+            try {
+                BarangModel::insert($insert); // Changed from insertOrIgnore to catch duplicates
+                DB::commit();
 
                 return response()->json([
                     'status' => true,
-                    'message' => 'Data berhasil diimport'
+                    'message' => 'Data berhasil diimport',
+                    'count' => count($insert)
                 ]);
-            } else {
+            } catch (\Exception $e) {
+                DB::rollBack();
                 return response()->json([
                     'status' => false,
-                    'message' => 'Tidak ada data yang diimport'
-                ]);
+                    'message' => 'Gagal menyimpan data',
+                    'error' => $e->getMessage()
+                ], 500);
             }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan saat memproses file',
+                'error' => $e->getMessage()
+            ], 500);
         }
-        return redirect('/');
     }
 
 
