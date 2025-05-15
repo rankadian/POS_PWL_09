@@ -9,40 +9,37 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function __invoke(Request $request)
-    {
-        // Set Validation
-        $validator = Validator::make($request->all(), [
+    public function __invoke(Request $req){
+        //set validation
+        $validator = Validator::make($req->all(),[
             'username' => 'required',
             'nama' => 'required',
             'password' => 'required|min:5|confirmed',
-            'level_id' => 'required'
+            'level_id' => 'required',
         ]);
 
-        // if validation fails
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        // create user
-        $user = UserModel::create([
-            'username' => $request->username,
-            'nama' => $request->nama,
-            'password' => bcrypt($request->password),
-            'level_id' => $request->level_id
-        ]);
-
-        // return response JSON user is created
-        if ($user) {
-            return response()->json([
-                'success' => true,
-                'user' => $user
-            ], 201);
-        }
-
-        // return JSON process insert failed
-        return response()->json([
-            'success' => false,
-        ], 409);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(),422);
     }
+
+    $user = UserModel::create([
+        'username' => $req->username,
+        'nama' => $req->nama,
+        'password' => bcrypt($req->password),
+        'level_id' => $req->level_id,
+    ]);
+
+    //return response JSON user is created
+    if ($user) {
+       return response()->json([
+        'success' => true,
+        'user' => $user,
+       ],201);
+    }
+
+    //return JSON process insert failed
+    return response()->json([
+        'success' =>false,
+    ],409);
+}
 }
