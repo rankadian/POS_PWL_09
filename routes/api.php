@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LogoutController;
+use Illuminate\Auth\Events\Login;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +19,8 @@ use App\Http\Controllers\Api\RegisterController;
 */
 
 Route::post('/register', RegisterController::class)->name('register');
-Route::post('/login', RegisterController::class)->name('login');
+Route::post('/login', LoginController::class)->name('login');
+Route::post('/logout', LogoutController::class)->name('logout');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
