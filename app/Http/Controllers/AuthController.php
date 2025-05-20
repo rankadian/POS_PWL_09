@@ -51,47 +51,62 @@ class AuthController extends Controller
         return redirect('login');
     }
 
-    public function showSignup()
+    public function register()
     {
         $levels = LevelModel::all();
-        return view('auth.signup', compact('levels'));
+        return view('auth.register', compact('levels'));
     }
 
 
-    public function postSignup(Request $req)
+    // public function postregister(Request $req)
+    // {
+    //     if (!$req->ajax() && !$req->wantsJson()) {
+    //         return redirect()->back();
+    //     }
+
+    //     $validator = Validator::make($req->all(), [
+    //         'username' => 'required|string|min:5|max:20|unique:m_user,username',
+    //         'nama' => 'required|string|min:5|max:100',
+    //         'password' => 'required|string|min:6|confirmed',
+    //         'level_id' => 'required|exists:m_level,level_id'
+    //     ]);
+
+
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'message' => 'Validasi Gagal',
+    //             'msgField' => $validator->errors()
+    //         ], Response::HTTP_BAD_REQUEST);
+    //     }
+
+    //     $user = UserModel::create([
+    //         'username' => $req->username,
+    //         'nama' => $req->nama,
+    //         'level_id' => 3,
+    //         'password' => Hash::make($req->password)
+    //     ]);
+
+    //     Auth::login($user);
+
+    //     return response()->json([
+    //         'message' => 'Data pengguna berhasil dibuat',
+    //         'redirect' => url('/')
+    //     ], Response::HTTP_OK);
+    // }
+
+    public function postregister(Request $request)
     {
-        if (!$req->ajax() && !$req->wantsJson()) {
-            return redirect()->back();
-        }
-
-        $validator = Validator::make($req->all(), [
-            'username' => 'required|string|min:5|max:20|unique:m_user,username',
-            'nama' => 'required|string|min:5|max:100',
-            'password' => 'required|string|min:6|confirmed',
-            'level_id' => 'required|exists:m_level,level_id' // Validate that the level exists
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
         ]);
-
-
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validasi Gagal',
-                'msgField' => $validator->errors()
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
-        $user = UserModel::create([
-            'username' => $req->username,
-            'nama' => $req->nama,
-            'level_id' => 3,
-            'password' => Hash::make($req->password)
-        ]);
-
-        Auth::login($user);
-
-        return response()->json([
-            'message' => 'Data pengguna berhasil dibuat',
-            'redirect' => url('/')
-        ], Response::HTTP_OK);
+        $user = new UserModel;
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        $user->password = bcrypt($request->password);
+        $user->level_id = 3;
+        $user->save();
+        return redirect('login');
     }
 }
