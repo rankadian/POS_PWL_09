@@ -64,4 +64,42 @@ class BarangController extends Controller
             'message' => 'Data deleted successfully'
         ]);
     }
+
+    public function add_image(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'kategori_id' => 'required',
+            'barang_kode' => 'required',
+            'barang_nama' => 'required',
+            'harga_beli' => 'required',
+            'harga_jual' => 'required',
+            'add_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = BarangModel::create([
+            'kategori_id' => $req->kategori_id,
+            'barang_kode' => $req->barang_kode,
+            'barang_nama' => $req->barang_nama,
+            'harga_beli' => $req->harga_beli,
+            'harga_jual' => $req->harga_beli,
+            'add_image' => $req->add_image->hashName(),
+        ]);
+
+        //return response JSON user is created
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+            ], 201);
+        }
+
+        //return JSON process insert failed
+        return response()->json([
+            'success' => false,
+        ], 409);
+    }
 }

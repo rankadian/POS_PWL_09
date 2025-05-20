@@ -25,7 +25,7 @@ class UserModel extends Authenticatable implements JWTSubject
 
     protected $table = 'm_user'; // mendefinisikan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // mendefinisikan primary key dari tabel yang digunakan
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password', 'image'];
 
     protected $hidden = ['password']; // jangan ditampilkan saat select
 
@@ -51,10 +51,11 @@ class UserModel extends Authenticatable implements JWTSubject
         return $this->level->level_kode;
     }
 
-    // protected function image(): Attribute
+    // matikan kode dibawah ini kalo udah selesai js 10
+    // public function image(): Attribute
     // {
     //     return Attribute::make(
-    //         get: fn($image) => url($image)
+    //         get: fn($image) => asset('public/uploads/profile' . $image),
     //     );
     // }
 

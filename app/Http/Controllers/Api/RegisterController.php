@@ -16,6 +16,7 @@ class RegisterController extends Controller
             'nama' => 'required',
             'password' => 'required|min:5|confirmed',
             'level_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
     if ($validator->fails()) {
@@ -27,6 +28,7 @@ class RegisterController extends Controller
         'nama' => $req->nama,
         'password' => bcrypt($req->password),
         'level_id' => $req->level_id,
+        'image' => $req->image->hashName(),
     ]);
 
     //return response JSON user is created
